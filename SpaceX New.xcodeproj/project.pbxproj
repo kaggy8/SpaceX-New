@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		54283FBB289F0547002ACD95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54283FBA289F0547002ACD95 /* AppDelegate.swift */; };
 		54283FBD289F0547002ACD95 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54283FBC289F0547002ACD95 /* SceneDelegate.swift */; };
-		54283FBF289F0547002ACD95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54283FBE289F0547002ACD95 /* ViewController.swift */; };
+		54283FBF289F0547002ACD95 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54283FBE289F0547002ACD95 /* MainViewController.swift */; };
 		54283FC2289F0547002ACD95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54283FC0289F0547002ACD95 /* Main.storyboard */; };
 		54283FC4289F0549002ACD95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54283FC3289F0549002ACD95 /* Assets.xcassets */; };
 		54283FC7289F0549002ACD95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54283FC5289F0549002ACD95 /* LaunchScreen.storyboard */; };
+		54E81A81289FC2FD00C9A28C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E81A80289FC2FD00C9A28C /* NetworkManager.swift */; };
+		54E81A83289FC5C000C9A28C /* Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E81A82289FC5C000C9A28C /* Rocket.swift */; };
+		54E81A87289FC8CD00C9A28C /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E81A86289FC8CD00C9A28C /* Links.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		54283FB7289F0547002ACD95 /* SpaceX New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SpaceX New.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54283FBA289F0547002ACD95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54283FBC289F0547002ACD95 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		54283FBE289F0547002ACD95 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		54283FBE289F0547002ACD95 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		54283FC1289F0547002ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		54283FC3289F0549002ACD95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54283FC6289F0549002ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54283FC8289F0549002ACD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54E81A80289FC2FD00C9A28C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		54E81A82289FC5C000C9A28C /* Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rocket.swift; sourceTree = "<group>"; };
+		54E81A86289FC8CD00C9A28C /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,74 @@
 		54283FB9289F0547002ACD95 /* SpaceX New */ = {
 			isa = PBXGroup;
 			children = (
-				54283FBA289F0547002ACD95 /* AppDelegate.swift */,
-				54283FBC289F0547002ACD95 /* SceneDelegate.swift */,
-				54283FBE289F0547002ACD95 /* ViewController.swift */,
-				54283FC0289F0547002ACD95 /* Main.storyboard */,
-				54283FC3289F0549002ACD95 /* Assets.xcassets */,
-				54283FC5289F0549002ACD95 /* LaunchScreen.storyboard */,
-				54283FC8289F0549002ACD95 /* Info.plist */,
+				54E81A89289FC90600C9A28C /* ViewControllers */,
+				54E81A7F289FC2EF00C9A28C /* Services */,
+				54E81A7E289FC28400C9A28C /* Model */,
+				54E81A84289FC89B00C9A28C /* App */,
+				54E81A8A289FC91000C9A28C /* Storyboards */,
+				54E81A85289FC8C200C9A28C /* Helpers */,
+				54E81A88289FC8FE00C9A28C /* Resources */,
 			);
 			path = "SpaceX New";
+			sourceTree = "<group>";
+		};
+		54E81A7E289FC28400C9A28C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				54E81A82289FC5C000C9A28C /* Rocket.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		54E81A7F289FC2EF00C9A28C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				54E81A80289FC2FD00C9A28C /* NetworkManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		54E81A84289FC89B00C9A28C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				54283FBA289F0547002ACD95 /* AppDelegate.swift */,
+				54283FBC289F0547002ACD95 /* SceneDelegate.swift */,
+				54283FC8289F0549002ACD95 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		54E81A85289FC8C200C9A28C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				54E81A86289FC8CD00C9A28C /* Links.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		54E81A88289FC8FE00C9A28C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				54283FC3289F0549002ACD95 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		54E81A89289FC90600C9A28C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				54283FBE289F0547002ACD95 /* MainViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		54E81A8A289FC91000C9A28C /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				54283FC0289F0547002ACD95 /* Main.storyboard */,
+				54283FC5289F0549002ACD95 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +203,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54283FBF289F0547002ACD95 /* ViewController.swift in Sources */,
+				54E81A81289FC2FD00C9A28C /* NetworkManager.swift in Sources */,
+				54E81A87289FC8CD00C9A28C /* Links.swift in Sources */,
+				54283FBF289F0547002ACD95 /* MainViewController.swift in Sources */,
 				54283FBB289F0547002ACD95 /* AppDelegate.swift in Sources */,
+				54E81A83289FC5C000C9A28C /* Rocket.swift in Sources */,
 				54283FBD289F0547002ACD95 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,7 +357,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7JK7WBFZQ5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "SpaceX New/Info.plist";
+				INFOPLIST_FILE = "SpaceX New/App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -317,7 +385,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7JK7WBFZQ5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "SpaceX New/Info.plist";
+				INFOPLIST_FILE = "SpaceX New/App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
