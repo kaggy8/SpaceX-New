@@ -26,7 +26,8 @@ class MainViewController: UIViewController {
     
     private let networkManager = NetworkManager.shared
     private var rockets = [Rocket]()
-    private let index = 0
+    private var index = 0
+    
     
     // MARK: - Override Methods
     override func viewDidLoad() {
@@ -71,6 +72,7 @@ extension MainViewController {
         scrollView.isPagingEnabled = true
         
         for index in 0..<rockets.count {
+            
             let page = UIView(frame: CGRect(x: CGFloat(index) * view.frame.size.width,
                                             y: 280,
                                             width: view.frame.size.width,
@@ -83,9 +85,9 @@ extension MainViewController {
                                                   width: view.frame.size.width,
                                                   height: 330))
             let nameRocketLabel = UILabel(frame: CGRect(x: 32,
-                                                  y: 48,
-                                                  width: 200,
-                                                  height: 32))
+                                                        y: 48,
+                                                        width: 200,
+                                                        height: 32))
             nameRocketLabel.text = "\(rockets[index].name)"
             nameRocketLabel.font = UIFont(name: "Verdana", size: 24)
             nameRocketLabel.textColor = .white
@@ -114,7 +116,7 @@ extension MainViewController {
             stackViewInfo.spacing = 20
             stackViewInfo.translatesAutoresizingMaskIntoConstraints = false
             
-            for _ in 0...3 {
+            for screen in 0...3 {
                 let view = UIView()
                 view.heightAnchor.constraint(equalToConstant: 96).isActive = true
                 view.widthAnchor.constraint(equalToConstant: 96).isActive = true
@@ -123,6 +125,10 @@ extension MainViewController {
                                                blue: 33/255,
                                                alpha: 1)
                 view.layer.cornerRadius = 32
+                let label = setupLabelInfo(viewNumber: screen, index: index)
+                self.index += 1
+                view.addSubview(label[0])
+                view.addSubview(label[1])
                 stackViewInfo.addArrangedSubview(view)
             }
             
@@ -153,6 +159,7 @@ extension MainViewController {
         scrollView.bouncesZoom = false
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.backgroundColor = .black
+        scrollView.isDirectionalLockEnabled = true
     }
     
     
@@ -169,6 +176,48 @@ extension MainViewController {
                 print(error)
             }
         }
+    }
+    
+    private func setupLabelInfo(viewNumber: Int, index: Int) -> [UILabel] {
+        let tag = viewNumber
+        
+        let labelValue = UILabel(frame: CGRect(x: 8,
+                                          y: 28,
+                                          width: 80,
+                                          height: 24))
+        let labelInfo = UILabel(frame: CGRect(x: 8,
+                                              y: 52,
+                                              width: 80,
+                                              height: 20))
+        labelValue.textAlignment = .center
+        labelValue.textColor = .white
+        labelValue.font  = UIFont.boldSystemFont(ofSize: 16)
+        labelValue.tag = tag
+        
+        labelInfo.textAlignment = .center
+        labelInfo.textColor = .gray
+        labelInfo.font = UIFont.systemFont(ofSize: 14)
+        labelValue.tag = tag
+        
+        if tag == 0 {
+            let heighValue = "\(rockets[index].height.meters)"
+            labelValue.text = heighValue
+            labelInfo.text = "Height, m"
+        } else if tag == 1 {
+            let diameterValue = "\(rockets[index].diameter.meters)"
+            labelValue.text = diameterValue
+            labelInfo.text = "Diameter, m"
+        } else if tag == 2 {
+            let massValue = "\(rockets[index].mass.kg)"
+            labelValue.text = massValue
+            labelInfo.text = "Mass, kg"
+        } else {
+            let payloadValue = "\(rockets[index].payloadWeights[0].kg)"
+            labelValue.text = payloadValue
+            labelInfo.text = "Loads, kg"
+        }
+
+        return [labelValue, labelInfo]
     }
 }
 
