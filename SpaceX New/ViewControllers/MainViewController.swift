@@ -62,7 +62,7 @@ extension MainViewController {
     }
     
     private func configureScrollView() {
-        let mainInfo = mainInfo(index: index)
+        
         scrollView.frame = CGRect(x: 0,
                                   y: 0,
                                   width: view.frame.size.width,
@@ -73,7 +73,6 @@ extension MainViewController {
         scrollView.isPagingEnabled = true
         
         for index in 0..<rockets.count {
-            
             let page = UIView(frame: CGRect(x: CGFloat(index) * view.frame.size.width,
                                             y: 280,
                                             width: view.frame.size.width,
@@ -116,6 +115,8 @@ extension MainViewController {
             stackViewInfo.alignment = .center
             stackViewInfo.spacing = 20
             stackViewInfo.translatesAutoresizingMaskIntoConstraints = false
+            stackViewInfo.layoutMargins = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 32)
+            stackViewInfo.isLayoutMarginsRelativeArrangement = true
             
             for screen in 0...3 {
                 let view = UIView()
@@ -133,7 +134,8 @@ extension MainViewController {
                 stackViewInfo.addArrangedSubview(view)
             }
             
-            
+            let mainInfo = setupMainInfo(index: index)
+            let firstStage = setupFirstStage(index: index)
             
             infoScrollView.addSubview(stackViewInfo)
             
@@ -142,8 +144,14 @@ extension MainViewController {
             
             page.addSubview(nameRocketLabel)
             page.addSubview(infoScrollView)
-            page.addSubview(mainInfo[index])
             
+            for label in mainInfo {
+                page.addSubview(label)
+            }
+            
+            for label in firstStage {
+                page.addSubview(label)
+            }
             
             DispatchQueue.global().async {
                 guard let imageData = self.networkManager.fetchImage(from: self.rockets[index].flickrImages.randomElement()) else { return }
@@ -224,9 +232,10 @@ extension MainViewController {
         return [labelValue, labelInfo]
     }
     
-    private func mainInfo(index: Int) -> [UILabel] {
+    private func setupMainInfo(index: Int) -> [UILabel] {
         let date = getDate(index: index)
         let country = getCountry(index: index)
+        let cost = "$\(rockets[index].costPerLaunch / 100000) млн"
         let firstLaunch = UILabel(frame: CGRect(x: 32,
                                                 y: 248,
                                                 width: 115,
@@ -235,18 +244,22 @@ extension MainViewController {
                                                 y: 288,
                                                 width: 176,
                                                 height: 24))
-        let costPerLaunch = UILabel(frame: CGRect(x: 32,
+        let costLabel = UILabel(frame: CGRect(x: 32,
                                                   y: 328,
                                                   width: 375,
                                                   height: 24))
-        let dateLaunchLabel = UILabel(frame: CGRect(x: 230,
+        let dateLaunchLabel = UILabel(frame: CGRect(x: 180,
                                                     y: 248,
-                                                    width: 115,
+                                                    width: 170,
                                                     height: 24))
-        let countryLabel = UILabel(frame: CGRect(x: 233,
-                                                 y: 24,
-                                                 width: 375,
+        let countryLabel = UILabel(frame: CGRect(x: 180,
+                                                 y: 288,
+                                                 width: 170,
                                                  height: 24))
+        let costPerLaunch = UILabel(frame: CGRect(x: 180,
+                                                  y: 328,
+                                                  width: 170,
+                                                  height: 24))
         
         firstLaunch.textAlignment = .left
         firstLaunch.textColor = .white
@@ -258,10 +271,10 @@ extension MainViewController {
         countryWord.font = UIFont.systemFont(ofSize: 16)
         countryWord.text = "Страна"
         
-        costPerLaunch.textAlignment = .left
-        costPerLaunch.textColor = .white
-        costPerLaunch.font = UIFont.systemFont(ofSize: 16)
-        costPerLaunch.text = "Стоимость запуска"
+        costLabel.textAlignment = .left
+        costLabel.textColor = .white
+        costLabel.font = UIFont.systemFont(ofSize: 16)
+        costLabel.text = "Стоимость запуска"
         
         dateLaunchLabel.textAlignment = .right
         dateLaunchLabel.textColor = .white
@@ -273,17 +286,36 @@ extension MainViewController {
         countryLabel.font = UIFont.systemFont(ofSize: 16)
         countryLabel.text = country
         
-        return [firstLaunch, countryWord, costPerLaunch, dateLaunchLabel, countryLabel]
+        costPerLaunch.textAlignment = .right
+        costPerLaunch.textColor = .white
+        costPerLaunch.font = UIFont.systemFont(ofSize: 16)
+        costPerLaunch.text = cost
+        
+        
+        return [firstLaunch, countryWord, costLabel, dateLaunchLabel, countryLabel, costPerLaunch]
+    }
+    
+    private func setupFirstStage(index: Int) -> [UILabel] {
+        let firstStageLabel = UILabel(frame: CGRect(x: 32,
+                                                    y: 392,
+                                                    width: 300,
+                                                    height: 32))
+        firstStageLabel.textAlignment = .left
+        firstStageLabel.textColor = .white
+        firstStageLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        firstStageLabel.text = "Первая ступень"
+        
+        return [firstStageLabel]
     }
     
     private func getDate(index: Int) -> String {
-        let receivedDate = rockets.first!.firstFlight
+        let receivedDate = rockets[index].firstFlight
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd"
         guard let date = dateFormatter.date(from: receivedDate) else { return "Дата отсутствует"}
         let dateF = DateFormatter()
         dateF.timeStyle = .none
-        dateF.dateFormat = "dd MMMM, yyyy"
+        dateF.dateFormat = "d MMMM, yyyy"
         return dateF.string(from: date)
     }
     
