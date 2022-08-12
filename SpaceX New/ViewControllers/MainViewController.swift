@@ -62,6 +62,7 @@ extension MainViewController {
     }
     
     private func configureScrollView() {
+        let mainInfo = mainInfo(index: index)
         scrollView.frame = CGRect(x: 0,
                                   y: 0,
                                   width: view.frame.size.width,
@@ -106,7 +107,7 @@ extension MainViewController {
             infoScrollView.alwaysBounceVertical = false
             infoScrollView.alwaysBounceHorizontal = false
             
-            let stackViewInfo = UIStackView(frame: CGRect(x: 0,
+            let stackViewInfo = UIStackView(frame: CGRect(x: 32,
                                                           y: 0,
                                                           width: infoScrollView.contentSize.width,
                                                           height: 96))
@@ -132,6 +133,8 @@ extension MainViewController {
                 stackViewInfo.addArrangedSubview(view)
             }
             
+            
+            
             infoScrollView.addSubview(stackViewInfo)
             
             scrollView.addSubview(image)
@@ -139,6 +142,7 @@ extension MainViewController {
             
             page.addSubview(nameRocketLabel)
             page.addSubview(infoScrollView)
+            page.addSubview(mainInfo[index])
             
             
             DispatchQueue.global().async {
@@ -182,9 +186,9 @@ extension MainViewController {
         let tag = viewNumber
         
         let labelValue = UILabel(frame: CGRect(x: 8,
-                                          y: 28,
-                                          width: 80,
-                                          height: 24))
+                                               y: 28,
+                                               width: 80,
+                                               height: 24))
         let labelInfo = UILabel(frame: CGRect(x: 8,
                                               y: 52,
                                               width: 80,
@@ -216,8 +220,84 @@ extension MainViewController {
             labelValue.text = payloadValue
             labelInfo.text = "Loads, kg"
         }
-
+        
         return [labelValue, labelInfo]
+    }
+    
+    private func mainInfo(index: Int) -> [UILabel] {
+        let date = getDate(index: index)
+        let country = getCountry(index: index)
+        let firstLaunch = UILabel(frame: CGRect(x: 32,
+                                                y: 248,
+                                                width: 115,
+                                                height: 24))
+        let countryWord = UILabel(frame: CGRect(x: 32,
+                                                y: 288,
+                                                width: 176,
+                                                height: 24))
+        let costPerLaunch = UILabel(frame: CGRect(x: 32,
+                                                  y: 328,
+                                                  width: 375,
+                                                  height: 24))
+        let dateLaunchLabel = UILabel(frame: CGRect(x: 230,
+                                                    y: 248,
+                                                    width: 115,
+                                                    height: 24))
+        let countryLabel = UILabel(frame: CGRect(x: 233,
+                                                 y: 24,
+                                                 width: 375,
+                                                 height: 24))
+        
+        firstLaunch.textAlignment = .left
+        firstLaunch.textColor = .white
+        firstLaunch.font = UIFont.systemFont(ofSize: 16)
+        firstLaunch.text = "Первый запуск"
+        
+        countryWord.textAlignment = .left
+        countryWord.textColor = .white
+        countryWord.font = UIFont.systemFont(ofSize: 16)
+        countryWord.text = "Страна"
+        
+        costPerLaunch.textAlignment = .left
+        costPerLaunch.textColor = .white
+        costPerLaunch.font = UIFont.systemFont(ofSize: 16)
+        costPerLaunch.text = "Стоимость запуска"
+        
+        dateLaunchLabel.textAlignment = .right
+        dateLaunchLabel.textColor = .white
+        dateLaunchLabel.font = UIFont.systemFont(ofSize: 16)
+        dateLaunchLabel.text = date
+        
+        countryLabel.textAlignment = .right
+        countryLabel.textColor = .white
+        countryLabel.font = UIFont.systemFont(ofSize: 16)
+        countryLabel.text = country
+        
+        return [firstLaunch, countryWord, costPerLaunch, dateLaunchLabel, countryLabel]
+    }
+    
+    private func getDate(index: Int) -> String {
+        let receivedDate = rockets.first!.firstFlight
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+        guard let date = dateFormatter.date(from: receivedDate) else { return "Дата отсутствует"}
+        let dateF = DateFormatter()
+        dateF.timeStyle = .none
+        dateF.dateFormat = "dd MMMM, yyyy"
+        return dateF.string(from: date)
+    }
+    
+    private func getCountry(index: Int) -> String {
+        let country = rockets[index].country
+        
+        switch country {
+        case "Republic of the Marshall Islands":
+            return "Маршалловы острова"
+        case "United States":
+            return "США"
+        default:
+            return "Нет данных"
+        }
     }
 }
 
