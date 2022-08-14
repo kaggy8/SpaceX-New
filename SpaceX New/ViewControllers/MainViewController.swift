@@ -54,6 +54,21 @@ class MainViewController: UIViewController {
 
 // MARK: - Private methods
 extension MainViewController {
+    private func setupLoader() {
+        self.networkManager.fetchData(dataType: [Rocket].self, from: Links.rockets.rawValue) { (model) in
+            switch model {
+            case .success(let rockets):
+                DispatchQueue.main.async {
+                    self.rockets = rockets
+                    self.pageControl.numberOfPages = rockets.count
+                    self.configureScrollView()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     @objc private func pageControlDidChange(_ sender: UIPageControl) {
         let currentDot = sender.currentPage
         scrollView.setContentOffset(CGPoint(x: CGFloat(currentDot) * view.frame.size.width,
@@ -135,7 +150,9 @@ extension MainViewController {
             }
             
             let mainInfo = setupMainInfo(index: index)
-            let firstStage = setupFirstStage(index: index)
+            let firstStage = setupFirstStageUI(index: index)
+            let secondStage = setupSecondStageUI(index: index)
+            let button = setButtonLaunches(index: index)
             
             infoScrollView.addSubview(stackViewInfo)
             
@@ -152,6 +169,11 @@ extension MainViewController {
             for label in firstStage {
                 page.addSubview(label)
             }
+            
+            for label in secondStage {
+                page.addSubview(label)
+            }
+            page.addSubview(button)
             
             DispatchQueue.global().async {
                 guard let imageData = self.networkManager.fetchImage(from: self.rockets[index].flickrImages.randomElement()) else { return }
@@ -174,22 +196,6 @@ extension MainViewController {
         scrollView.isDirectionalLockEnabled = true
     }
     
-    
-    private func setupLoader() {
-        self.networkManager.fetchData(dataType: [Rocket].self, from: Links.rockets.rawValue) { (model) in
-            switch model {
-            case .success(let rockets):
-                DispatchQueue.main.async {
-                    self.rockets = rockets
-                    self.pageControl.numberOfPages = rockets.count
-                    self.configureScrollView()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
     private func setupLabelInfo(viewNumber: Int, index: Int) -> [UILabel] {
         let tag = viewNumber
         
@@ -200,7 +206,7 @@ extension MainViewController {
         let labelInfo = UILabel(frame: CGRect(x: 8,
                                               y: 52,
                                               width: 80,
-                                              height: 20))
+                                              height: 24))
         labelValue.textAlignment = .center
         labelValue.textColor = .white
         labelValue.font  = UIFont.boldSystemFont(ofSize: 16)
@@ -214,19 +220,21 @@ extension MainViewController {
         if tag == 0 {
             let heighValue = "\(rockets[index].height.meters)"
             labelValue.text = heighValue
-            labelInfo.text = "Height, m"
+            labelInfo.text = "Высота, м"
         } else if tag == 1 {
             let diameterValue = "\(rockets[index].diameter.meters)"
             labelValue.text = diameterValue
-            labelInfo.text = "Diameter, m"
+            labelInfo.text = "Диаметр, м"
         } else if tag == 2 {
             let massValue = "\(rockets[index].mass.kg)"
             labelValue.text = massValue
-            labelInfo.text = "Mass, kg"
+            labelInfo.text = "Масса, кг"
         } else {
             let payloadValue = "\(rockets[index].payloadWeights[0].kg)"
             labelValue.text = payloadValue
-            labelInfo.text = "Loads, kg"
+            labelInfo.frame.size.height = 40
+            labelInfo.numberOfLines = 0
+            labelInfo.text = "Загрузка, \n кг"
         }
         
         return [labelValue, labelInfo]
@@ -248,15 +256,15 @@ extension MainViewController {
                                                   y: 328,
                                                   width: 375,
                                                   height: 24))
-        let dateLaunchLabel = UILabel(frame: CGRect(x: 180,
+        let dateLaunchLabel = UILabel(frame: CGRect(x: 195,
                                                     y: 248,
                                                     width: 170,
                                                     height: 24))
-        let countryLabel = UILabel(frame: CGRect(x: 180,
+        let countryLabel = UILabel(frame: CGRect(x: 195,
                                                  y: 288,
                                                  width: 170,
                                                  height: 24))
-        let costPerLaunch = UILabel(frame: CGRect(x: 180,
+        let costPerLaunch = UILabel(frame: CGRect(x: 195,
                                                   y: 328,
                                                   width: 170,
                                                   height: 24))
@@ -291,21 +299,220 @@ extension MainViewController {
         costPerLaunch.font = UIFont.systemFont(ofSize: 16)
         costPerLaunch.text = cost
         
-        
         return [firstLaunch, countryWord, costLabel, dateLaunchLabel, countryLabel, costPerLaunch]
     }
     
-    private func setupFirstStage(index: Int) -> [UILabel] {
+    private func setupFirstStageUI(index: Int) -> [UILabel] {
         let firstStageLabel = UILabel(frame: CGRect(x: 32,
                                                     y: 392,
                                                     width: 300,
                                                     height: 32))
+        let numberOfEnginesStringLabel = UILabel(frame: CGRect(x: 32,
+                                                               y: 432,
+                                                               width: 180,
+                                                               height: 24))
+        let fuelLabel = UILabel(frame: CGRect(x: 32,
+                                              y: 472,
+                                              width: 180,
+                                              height: 24))
+        let engines = UILabel(frame: CGRect(x: 175,
+                                            y: 432,
+                                            width: 150,
+                                            height: 24))
+        let fuelAmountTons = UILabel(frame: CGRect(x: 175,
+                                                   y: 472,
+                                                   width: 150,
+                                                   height: 24))
+        let measureOfWeight = UILabel(frame: CGRect(x: 335,
+                                                    y: 472,
+                                                    width: 28,
+                                                    height: 24))
+        let timeLabel = UILabel(frame: CGRect(x: 32,
+                                              y: 512,
+                                              width: 180,
+                                              height: 24))
+        let burnTimeSec = UILabel(frame: CGRect(x: 175,
+                                                y: 512,
+                                                width: 150,
+                                                height: 24))
+        let seconds = UILabel(frame: CGRect(x: 335,
+                                            y: 512,
+                                            width: 28,
+                                            height: 24))
+        
         firstStageLabel.textAlignment = .left
         firstStageLabel.textColor = .white
         firstStageLabel.font = UIFont.boldSystemFont(ofSize: 24)
         firstStageLabel.text = "Первая ступень"
         
-        return [firstStageLabel]
+        numberOfEnginesStringLabel.textAlignment = .left
+        numberOfEnginesStringLabel.textColor = .white
+        numberOfEnginesStringLabel.font = UIFont.systemFont(ofSize: 16)
+        numberOfEnginesStringLabel.text = "Количество двигателей"
+        
+        fuelLabel.textAlignment = .left
+        fuelLabel.textColor = .white
+        fuelLabel.font = UIFont.systemFont(ofSize: 16)
+        fuelLabel.text = "Количество топлива"
+        
+        engines.textAlignment = .right
+        engines.textColor = .white
+        engines.font = UIFont.systemFont(ofSize: 16)
+        engines.text = "\(rockets[index].firstStage.engines)"
+        
+        fuelAmountTons.textAlignment = .right
+        fuelAmountTons.textColor = .white
+        fuelAmountTons.font = UIFont.systemFont(ofSize: 16)
+        fuelAmountTons.text = "\(Int(rockets[index].firstStage.fuelAmountTons))"
+        
+        measureOfWeight.textAlignment = .right
+        measureOfWeight.textColor = .gray
+        measureOfWeight.font = UIFont.systemFont(ofSize: 16)
+        measureOfWeight.text = "ton"
+        
+        timeLabel.textAlignment = .left
+        timeLabel.textColor = .white
+        timeLabel.font = UIFont.systemFont(ofSize: 16)
+        timeLabel.text = "Время сгорания"
+        
+        burnTimeSec.textAlignment = .right
+        burnTimeSec.textColor = .white
+        burnTimeSec.font = UIFont.systemFont(ofSize: 16)
+        if let burn = rockets[index].firstStage.burnTimeSec {
+            burnTimeSec.text = "\(burn)"
+            seconds.text = "sec"
+        } else {
+            burnTimeSec.text = "Нет данныx"
+        }
+        
+        seconds.textAlignment = .right
+        seconds.textColor = .gray
+        seconds.font = UIFont.systemFont(ofSize: 16)
+        
+        return [firstStageLabel,
+                numberOfEnginesStringLabel,
+                fuelLabel,
+                engines,
+                fuelAmountTons,
+                measureOfWeight,
+                timeLabel,
+                burnTimeSec,
+                seconds
+        ]
+    }
+    
+    private func setupSecondStageUI(index: Int) -> [UILabel] {
+        let secondStageLabel = UILabel(frame: CGRect(x: 26,
+                                                    y: 576,
+                                                    width: 300,
+                                                    height: 32))
+        let numberOfEnginesStringLabel = UILabel(frame: CGRect(x: 32,
+                                                               y: 616,
+                                                               width: 180,
+                                                               height: 24))
+        let fuelLabel = UILabel(frame: CGRect(x: 32,
+                                              y: 656,
+                                              width: 180,
+                                              height: 24))
+        let engines = UILabel(frame: CGRect(x: 175,
+                                            y: 616,
+                                            width: 150,
+                                            height: 24))
+        let fuelAmountTons = UILabel(frame: CGRect(x: 175,
+                                                   y: 656,
+                                                   width: 150,
+                                                   height: 24))
+        let measureOfWeight = UILabel(frame: CGRect(x: 335,
+                                                    y: 656,
+                                                    width: 28,
+                                                    height: 24))
+        let timeLabel = UILabel(frame: CGRect(x: 32,
+                                              y: 696,
+                                              width: 180,
+                                              height: 24))
+        let burnTimeSec = UILabel(frame: CGRect(x: 175,
+                                                y: 696,
+                                                width: 150,
+                                                height: 24))
+        let seconds = UILabel(frame: CGRect(x: 335,
+                                            y: 696,
+                                            width: 28,
+                                            height: 24))
+        
+        secondStageLabel.textAlignment = .left
+        secondStageLabel.textColor = .white
+        secondStageLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        secondStageLabel.text = " Вторая ступень"
+        
+        numberOfEnginesStringLabel.textAlignment = .left
+        numberOfEnginesStringLabel.textColor = .white
+        numberOfEnginesStringLabel.font = UIFont.systemFont(ofSize: 16)
+        numberOfEnginesStringLabel.text = "Количество двигателей"
+        
+        fuelLabel.textAlignment = .left
+        fuelLabel.textColor = .white
+        fuelLabel.font = UIFont.systemFont(ofSize: 16)
+        fuelLabel.text = "Количество топлива"
+        
+        engines.textAlignment = .right
+        engines.textColor = .white
+        engines.font = UIFont.systemFont(ofSize: 16)
+        engines.text = "\(rockets[index].secondStage.engines)"
+        
+        fuelAmountTons.textAlignment = .right
+        fuelAmountTons.textColor = .white
+        fuelAmountTons.font = UIFont.systemFont(ofSize: 16)
+        fuelAmountTons.text = "\(Int(rockets[index].secondStage.fuelAmountTons))"
+        
+        measureOfWeight.textAlignment = .right
+        measureOfWeight.textColor = .gray
+        measureOfWeight.font = UIFont.systemFont(ofSize: 16)
+        measureOfWeight.text = "ton"
+        
+        timeLabel.textAlignment = .left
+        timeLabel.textColor = .white
+        timeLabel.font = UIFont.systemFont(ofSize: 16)
+        timeLabel.text = "Время сгорания"
+        
+        burnTimeSec.textAlignment = .right
+        burnTimeSec.textColor = .white
+        burnTimeSec.font = UIFont.systemFont(ofSize: 16)
+        if let burn = rockets[index].secondStage.burnTimeSec {
+            burnTimeSec.text = "\(burn)"
+            seconds.text = "sec"
+        } else {
+            burnTimeSec.text = "Нет данныx"
+        }
+        
+        seconds.textAlignment = .right
+        seconds.textColor = .gray
+        seconds.font = UIFont.systemFont(ofSize: 16)
+        
+        return [secondStageLabel,
+                numberOfEnginesStringLabel,
+                fuelLabel,
+                engines,
+                fuelAmountTons,
+                measureOfWeight,
+                timeLabel,
+                burnTimeSec,
+                seconds
+        ]
+    }
+    
+    private func setButtonLaunches(index: Int) -> UIButton {
+        let button = UIButton(frame: CGRect(x: 32,
+                                            y: 760,
+                                            width: view.frame.size.width - 32 - 32,
+                                            height: 56))
+        
+        button.layer.cornerRadius = 12
+        button.setTitle("Посмотреть запуски", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.backgroundColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 1)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        
+        return button
     }
     
     private func getDate(index: Int) -> String {
@@ -330,6 +537,14 @@ extension MainViewController {
         default:
             return "Нет данных"
         }
+    }
+    
+    @objc func buttonAction(index:Int, sender: UIButton!) {
+        let launchesVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LaunchesViewController") as! LaunchesViewController
+        launchesVC.nameRocketLabel.text = rockets[0].name
+        launchesVC.navigationController?.title = "asdasdgtht"
+        
+        present(launchesVC, animated: true)
     }
 }
 

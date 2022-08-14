@@ -13,6 +13,7 @@
 		54283FC2289F0547002ACD95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54283FC0289F0547002ACD95 /* Main.storyboard */; };
 		54283FC4289F0549002ACD95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54283FC3289F0549002ACD95 /* Assets.xcassets */; };
 		54283FC7289F0549002ACD95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54283FC5289F0549002ACD95 /* LaunchScreen.storyboard */; };
+		54E3633628A9500200A71E40 /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E3633528A9500200A71E40 /* LaunchesViewController.swift */; };
 		54E81A81289FC2FD00C9A28C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E81A80289FC2FD00C9A28C /* NetworkManager.swift */; };
 		54E81A83289FC5C000C9A28C /* Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E81A82289FC5C000C9A28C /* Rocket.swift */; };
 		54E81A87289FC8CD00C9A28C /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E81A86289FC8CD00C9A28C /* Links.swift */; };
@@ -27,6 +28,7 @@
 		54283FC3289F0549002ACD95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54283FC6289F0549002ACD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54283FC8289F0549002ACD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54E3633528A9500200A71E40 /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
 		54E81A80289FC2FD00C9A28C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		54E81A82289FC5C000C9A28C /* Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rocket.swift; sourceTree = "<group>"; };
 		54E81A86289FC8CD00C9A28C /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				54283FBE289F0547002ACD95 /* MainViewController.swift */,
+				54E3633528A9500200A71E40 /* LaunchesViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			files = (
 				54E81A81289FC2FD00C9A28C /* NetworkManager.swift in Sources */,
 				54E81A87289FC8CD00C9A28C /* Links.swift in Sources */,
+				54E3633628A9500200A71E40 /* LaunchesViewController.swift in Sources */,
 				54283FBF289F0547002ACD95 /* MainViewController.swift in Sources */,
 				54283FBB289F0547002ACD95 /* AppDelegate.swift in Sources */,
 				54E81A83289FC5C000C9A28C /* Rocket.swift in Sources */,
