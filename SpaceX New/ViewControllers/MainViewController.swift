@@ -505,7 +505,7 @@ extension MainViewController {
                                             y: 760,
                                             width: view.frame.size.width - 32 - 32,
                                             height: 56))
-        
+        button.tag = index
         button.layer.cornerRadius = 12
         button.setTitle("Посмотреть запуски", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
@@ -539,11 +539,10 @@ extension MainViewController {
         }
     }
     
-    @objc func buttonAction(index:Int, sender: UIButton!) {
-        let launchesVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LaunchesViewController") as! LaunchesViewController
-        launchesVC.nameRocketLabel.text = rockets[0].name
-        launchesVC.navigationController?.title = "asdasdgtht"
-        
+    @objc func buttonAction(sender: UIButton!) {
+        let launchesVC = LaunchesViewController()
+        launchesVC.modalPresentationStyle = .fullScreen
+        launchesVC.nameRocketLabel.text = rockets[sender.tag].name
         present(launchesVC, animated: true)
     }
 }

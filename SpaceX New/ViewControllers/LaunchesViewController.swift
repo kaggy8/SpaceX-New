@@ -8,23 +8,41 @@
 import UIKit
 
 class LaunchesViewController: UIViewController {
-
-    var nameRocketLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 139,
-                                          y: 54,
-                                          width: 100,
-                                          height: 24))
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        
-        
-        return label
-    }()
     
+    // MARK: - Private Properties
+    let nameRocketLabel = UILabel()
+    
+    // MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-
+        setupNavigationBar()
     }
 }
+
+extension LaunchesViewController {
+    private func setupNavigationBar() {
+        let navigationBar = UINavigationBar(frame: CGRect(x: 0,
+                                                          y: 44,
+                                                          width: view.frame.size.width,
+                                                          height: 44))
+        self.view.addSubview(navigationBar)
+        
+        navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationBar.barTintColor = .black
+        navigationBar.isTranslucent = false
+        
+        guard let nameRocket = nameRocketLabel.text else { return }
+        let navigationItem = UINavigationItem(title: "\(nameRocket)")
+        let backItem = UIBarButtonItem(barButtonSystemItem: .close, target: nil, action: #selector(backTap))
+        navigationItem.rightBarButtonItem = backItem
+        
+        navigationBar.setItems([navigationItem], animated: false)
+    }
+    
+    @objc private func backTap() {
+        dismiss(animated: true)
+    }
+    
+}
+

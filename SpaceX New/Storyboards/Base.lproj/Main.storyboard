@@ -24,23 +24,6 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="138.61607142857142"/>
         </scene>
-        <!--sdfdf-->
-        <scene sceneID="VZT-Cl-EhZ">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MGt-tg-Orx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="LaunchesViewController" title="sdfdf" id="2Bu-7R-fWT" customClass="LaunchesViewController" customModule="SpaceX_New" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="dc0-bG-Xpl">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="bhz-85-7XV"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="Y3O-Xv-ePb"/>
-                    <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="1820" y="139"/>
-        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
