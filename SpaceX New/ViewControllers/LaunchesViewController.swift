@@ -9,18 +9,29 @@ import UIKit
 
 class LaunchesViewController: UIViewController {
     
-    // MARK: - Private Properties
+    // MARK: - Public properties
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     let nameRocketLabel = UILabel()
+    var id: String = ""
+    
+    // MARK: - Private Properties
+    private let networkManager = NetworkManager.shared
+    private var launches = [Launch]()
     
     // MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .black
         setupNavigationBar()
+        setupLoader()
     }
 }
 
 extension LaunchesViewController {
+    // MARK: - Private methods
     private func setupNavigationBar() {
         let navigationBar = UINavigationBar(frame: CGRect(x: 0,
                                                           y: 44,
@@ -40,9 +51,27 @@ extension LaunchesViewController {
         navigationBar.setItems([navigationItem], animated: false)
     }
     
+    private func setupLoader() {
+        self.networkManager.fetchData(dataType: [Launch].self, from: Links.launches.rawValue) { (model) in
+            switch model {
+            case .success(let launches):
+                DispatchQueue.main.async {
+                    self.launches = launches
+                    print(launches[0].id)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+    }
+    
     @objc private func backTap() {
         dismiss(animated: true)
     }
     
+    private func setupUIViewController() {
+        
+    }
 }
 

@@ -17,6 +17,7 @@ struct Rocket: Decodable {
     let firstStage: FirstStage
     let secondStage: SecondStage
     let payloadWeights: [PayloadWeights]
+    let id: String
     
     enum CodingKeys: String, CodingKey {
         case height
@@ -30,6 +31,7 @@ struct Rocket: Decodable {
         case firstStage = "first_stage"
         case secondStage = "second_stage"
         case payloadWeights = "payload_weights"
+        case id
     }
 }
 

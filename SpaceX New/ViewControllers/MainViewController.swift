@@ -378,6 +378,7 @@ extension MainViewController {
         burnTimeSec.textAlignment = .right
         burnTimeSec.textColor = .white
         burnTimeSec.font = UIFont.systemFont(ofSize: 16)
+        
         if let burn = rockets[index].firstStage.burnTimeSec {
             burnTimeSec.text = "\(burn)"
             seconds.text = "sec"
@@ -543,6 +544,7 @@ extension MainViewController {
         let launchesVC = LaunchesViewController()
         launchesVC.modalPresentationStyle = .fullScreen
         launchesVC.nameRocketLabel.text = rockets[sender.tag].name
+        launchesVC.id = rockets[sender.tag].id
         present(launchesVC, animated: true)
     }
 }
