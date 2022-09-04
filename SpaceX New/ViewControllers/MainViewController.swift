@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
 // MARK: - Private methods
 extension MainViewController {
     private func setupLoader() {
-        self.networkManager.fetchData(dataType: [Rocket].self, from: Links.rockets.rawValue) { (model) in
+        self.networkManager.fetchData(dataType: [Rocket].self, from: Link.rockets.rawValue) { (model) in
             switch model {
             case .success(let rockets):
                 DispatchQueue.main.async {
@@ -77,7 +77,6 @@ extension MainViewController {
     }
     
     private func configureScrollView() {
-        
         scrollView.frame = CGRect(x: 0,
                                   y: 0,
                                   width: view.frame.size.width,
@@ -86,6 +85,7 @@ extension MainViewController {
         scrollView.contentSize = CGSize(width: view.frame.size.width * CGFloat(rockets.count),
                                         height: 920 + 248)
         scrollView.isPagingEnabled = true
+        
         
         for index in 0..<rockets.count {
             let page = UIView(frame: CGRect(x: CGFloat(index) * view.frame.size.width,
@@ -544,7 +544,7 @@ extension MainViewController {
         let launchesVC = LaunchesViewController()
         launchesVC.modalPresentationStyle = .fullScreen
         launchesVC.nameRocketLabel.text = rockets[sender.tag].name
-        launchesVC.id = rockets[sender.tag].id
+        launchesVC.rocket = rockets[sender.tag].id
         present(launchesVC, animated: true)
     }
 }

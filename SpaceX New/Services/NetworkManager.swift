@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import Alamofire
 
 class NetworkManager {
     // MARK: - Errors for Result
-    enum RocketsError: Error {
+    enum NetworkError: Error {
         case invalidURL
         case noData
         case decodingError
@@ -19,7 +20,7 @@ class NetworkManager {
     static let shared = NetworkManager()
     
     // MARK: - Fetch Methods
-    func fetchData<T: Decodable>(dataType: T.Type, from url: String, with completion: @escaping ((Result<T, RocketsError>) -> Void)) {
+    func fetchData<T: Decodable>(dataType: T.Type, from url: String, with completion: @escaping ((Result<T, NetworkError>) -> Void)) {
         guard let url = URL(string: url) else {
             completion(.failure(.invalidURL))
             return

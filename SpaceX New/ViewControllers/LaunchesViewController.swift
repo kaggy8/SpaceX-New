@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class LaunchesViewController: UIViewController {
     
@@ -14,7 +15,7 @@ class LaunchesViewController: UIViewController {
         return .lightContent
     }
     let nameRocketLabel = UILabel()
-    var id: String = ""
+    var rocket: String = ""
     
     // MARK: - Private Properties
     private let networkManager = NetworkManager.shared
@@ -27,6 +28,7 @@ class LaunchesViewController: UIViewController {
         view.backgroundColor = .black
         setupNavigationBar()
         setupLoader()
+        print(Link.launches.rawValue + self.rocket)
     }
 }
 
@@ -52,26 +54,24 @@ extension LaunchesViewController {
     }
     
     private func setupLoader() {
-        self.networkManager.fetchData(dataType: [Launch].self, from: Links.launches.rawValue) { (model) in
-            switch model {
-            case .success(let launches):
-                DispatchQueue.main.async {
-                    self.launches = launches
-                    print(launches[0].id)
+        AF.request(Link.launches.rawValue + rocket, method: .post)
+            .validate()
+            .responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    self.launches = Launch.getLaunches(from: value)
+                    print(self.launches)
+                case .failure(let error):
+                    print(error)
                 }
-            case .failure(let error):
-                print(error)
             }
-        }
-
     }
     
     @objc private func backTap() {
         dismiss(animated: true)
     }
     
-    private func setupUIViewController() {
+    private func setupUIView() {
         
     }
 }
-
